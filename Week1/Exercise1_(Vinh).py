@@ -27,8 +27,28 @@ X_b = np.concatenate((np.ones((100,1)),X), axis=1) # add x0 = 1 to each instance
 
 # %%
 theta_best = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y)
-theta_best
+theta0 = theta_best[0][0]
+theta1 = theta_best[1][0]
+print('Intercept (Theta0) = ', theta0)
+print('Coeficients (Theta1) = ', theta1)
 
 # %% [markdown]
 # ### 4. Sử dụng $\hat{\theta}$ để dự đoán kết quả mới
+# * Code trong sách
+X_new = np.array([[0], [2]])
+X_new_b = np.c_[np.ones((2, 1)), X_new] # add x0 = 1 to each instance
+y_predict = X_new_b.dot(theta_best)
+y_predict
+plt.plot(X_new, y_predict, "r-")
+plt.plot(X, y, "b.")
+plt.axis([0, 2, 0, 15])
+plt.show()
+
+# %% [markdown]
+# * Code tự viết: Áp dụng công thức y = $\theta_0$ + $\theta_1$$x1$ + $\epsilon$ và plot đồ thị.
+plt.plot(X, theta0 + theta1*X, color='red')
+# plt.plot(X, y, "b.")
+plt.scatter(X, y)
+plt.axis([0, 2, 0, 15])
+plt.show()
 
