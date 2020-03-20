@@ -100,3 +100,27 @@ plt.scatter(Feature.X, Feature.y, color='blue')
 plt.xlabel('X')
 plt.ylabel('y')
 plt.show()
+
+# %% [markdown]
+# ### 5. Model data and plot outputs
+# * Model data
+Regress = linear_model.LinearRegression()
+train_x = np.asanyarray(Feature.X) # Convert list into array
+train_y = np.asanyarray(Feature.y) # Convert list into array
+# Regress.fit(train_x,train_y) # To calculate theta0 and theta1
+# print('Intercept(Theta0) = ', Regress.intercept_)
+# print('Coefficients(Theta1) = ', Regress.coef_)
+
+# %% [markdown]
+# %% [markdown]
+# ### 6. Change $y$ element
+RanIndex = np.random.randint(0,Feature.y.shape[0])
+Feature.y[RanIndex] = Feature.y[RanIndex] + 999
+
+# %%
+plt.scatter(Feature.X, Feature.y, color='blue')
+plt.xlabel('X')
+plt.ylabel('y')
+plt.show()
+
+# %%
