@@ -25,6 +25,17 @@ plt.show()
 X_b = np.concatenate((np.ones((100,1)),X), axis=1) # add x0 = 1 to each instance
 # X_b = np.c_[np.ones((100, 1)), X]
 
+# %% [markdown]
+# ### 4. Sử dụng sklearn package để tính $\hat{\theta}$
+# Đầu tiên cần phải import sklearn
+from sklearn import linear_model
+
+# %% [markdown]
+# Sau đó chúng ta model data
+Regress = linear_model.LinearRegression()
+Regress.fit(X, y)
+print('Intercept (Theta0) = ', Regress.intercept_[0])
+print('Coeficients (Theta1) = ', Regress.coef_[0][0])
 # %%
 theta_best = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y)
 theta0 = theta_best[0][0]
@@ -33,7 +44,7 @@ print('Intercept (Theta0) = ', theta0)
 print('Coeficients (Theta1) = ', theta1)
 
 # %% [markdown]
-# ### 4. Sử dụng $\hat{\theta}$ để dự đoán kết quả mới
+# ### 5. Sử dụng $\hat{\theta}$ để dự đoán kết quả mới
 # * Code trong sách
 X_new = np.array([[0], [2]])
 X_new_b = np.c_[np.ones((2, 1)), X_new] # add x0 = 1 to each instance
@@ -52,3 +63,40 @@ plt.scatter(X, y)
 plt.axis([0, 2, 0, 15])
 plt.show()
 
+# %% [markdown]
+# ## Bài tập 2
+# * Sử dụng chương trình Python trang 114 - 117 sách Hands-on Machine Learning with Scikit-Learn, Keras & TensorFlow, 2nd Edition tính lại ví dụ mô phỏng ở slides 11 thuộc Tuần 2.
+# %%
+# %% [markdown]
+# ## Bài tập 3
+# * Thực hành với dữ liệu cho trong Sheet1 file Excel `demo-data.xls`.
+# * Vẽ biểu đồ phân tán (biểu đồ Scatter) và nhận định về quan hệ giữa  $X$  và  $Y$ .
+# * Thay đổi một giá trị của $Y$ sao cho thật khác biệt. Chạy chương trình và quan sát.
+# %% [markdown]
+# ### 1. Import some modules
+import matplotlib.pyplot as plt # To plot data
+import numpy as np
+import pandas as pd # Import data from excel file to dataframe
+from sklearn import linear_model
+
+# %% [markdown]
+# ### 2. Import data from Excel file to dataframe
+
+# %%
+df = pd.read_excel (r'demo_data.xls', 0) # Import data from Sheet1 to dataframe
+df.head()
+
+# ### 3. Data exploration
+# * Summarize the data
+df.describe()
+
+# %% [markdown]
+# * Select features
+Feature = df[['X','y']]
+
+# %% [markdown]
+# ### 4. Plot data
+plt.scatter(Feature.X, Feature.y, color='blue')
+plt.xlabel('X')
+plt.ylabel('y')
+plt.show()
