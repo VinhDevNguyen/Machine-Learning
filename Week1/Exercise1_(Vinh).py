@@ -102,25 +102,46 @@ plt.ylabel('y')
 plt.show()
 
 # %% [markdown]
-# ### 5. Model data and plot outputs
+# ### 5. Model data, plot outputs and evaluation it
 # * Model data
 Regress = linear_model.LinearRegression()
-train_x = np.asanyarray(Feature.X) # Convert list into array
-train_y = np.asanyarray(Feature.y) # Convert list into array
-# Regress.fit(train_x,train_y) # To calculate theta0 and theta1
-# print('Intercept(Theta0) = ', Regress.intercept_)
-# print('Coefficients(Theta1) = ', Regress.coef_)
+train_x = np.asanyarray(Feature[['X']]) # Convert list into array
+train_y = np.asanyarray(Feature[['y']]) # Convert list into array
+Regress.fit(train_x,train_y) # To calculate theta0 and theta1
+print('Intercept(Theta0) = ', Regress.intercept_)
+print('Coefficients(Theta1) = ', Regress.coef_)
+y_hat = Regress.coef_[0][0]*train_x + Regress.intercept_[0]
 
 # %% [markdown]
+# * Plot Outputs
+plt.scatter(Feature.X, Feature.y, color='blue')
+plt.plot(train_x, y_hat, color = 'red')
+plt.xlabel('X')
+plt.ylabel('y')
+plt.show()
+
+# %% [markdown]
+# * Evaluation
+
+
 # %% [markdown]
 # ### 6. Change $y$ element
 RanIndex = np.random.randint(0,Feature.y.shape[0])
 Feature.y[RanIndex] = Feature.y[RanIndex] + 999
 
-# %%
+Regress = linear_model.LinearRegression()
+train_x = np.asanyarray(Feature[['X']]) # Convert list into array
+train_y = np.asanyarray(Feature[['y']]) # Convert list into array
+Regress.fit(train_x,train_y) # To calculate theta0 and theta1
+print('Intercept(Theta0) = ', Regress.intercept_)
+print('Coefficients(Theta1) = ', Regress.coef_)
+y_hat = Regress.coef_[0][0]*train_x + Regress.intercept_[0]
+
 plt.scatter(Feature.X, Feature.y, color='blue')
+plt.plot(train_x, y_hat, color = 'red')
 plt.xlabel('X')
 plt.ylabel('y')
 plt.show()
+
 
 # %%
