@@ -16,4 +16,12 @@ y = np.array([49, 53, 51,54])
 # * Chuyển $x_i$ về dạng \begin{bmatrix}1 & 147 \\1 & 150 \\1 & 153 \\1 & 160 \end{bmatrix}
 X_b = np.c_[np.ones((4, 1)), X]
 X_b
-# %%
+
+# %% [markdown]
+# * Tính $\hat\theta$
+theta_hat = np.linalg.inv(X_b.T.dot(X_b)).dot(X_b.T).dot(y)
+theta_hat
+
+# %% [markdown]
+# ### 4. Summary
+# Vậy phương trình hồi quy cần tìm là: $y$ = 5.02 + 0.31$x$
