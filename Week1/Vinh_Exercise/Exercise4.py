@@ -20,8 +20,6 @@ df.head()
 # %% [markdown]
 # ### 3. Correlation
 df.corr(method='pearson')
-# %% [markdown]
-# * Visualize using heat-map 
 
 # %% [markdown]
 # ### 3. Data Exploration
