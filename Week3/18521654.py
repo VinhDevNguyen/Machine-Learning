@@ -116,16 +116,15 @@ print((train_X["total_bedrooms"].isna() == False).all()) # Kiểm tra kết qu�
 # %% [markdown]
 # # Yêu cầu 1: Xử lý các cột bị khuyết dữ liệu trên tập Dev/Test
 
-# %%
-# Các bạn code tại đây
+# %% [markdown]
+# ## Xử lí dữ liệu trên tập Dev
+# ### 1. Kiểm tra các thuộc tính bị khuyết giá trị
+dev_X.isnull()
 
-
-# %%
-# Các bạn code tại đây
-
-
-# %%
-# Các bạn code tại đây
+# %% [markdown]
+# ### 2. Lọc các giá trị bị khuyết
+dev_X_Null_Index = dev_X.isnull().any(axis=1)
+dev_X[dev_X_Null_Index]
 
 # %% [markdown]
 # # Yêu cầu 2: Thực hiện các thí nghiệm với việc thêm các thuộc tính tích lũy dẫn
