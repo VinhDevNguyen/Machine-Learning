@@ -117,7 +117,7 @@ print((train_X["total_bedrooms"].isna() == False).all()) # Kiểm tra kết qu�
 # # Yêu cầu 1: Xử lý các cột bị khuyết dữ liệu trên tập Dev/Test
 
 # %% [markdown]
-# ## Xử lí dữ liệu trên tập Dev
+# ## Xử lí dữ liệu bị khuyết trên tập Dev
 # ### 1. Kiểm tra các thuộc tính bị khuyết giá trị
 dev_X.isnull()
 
@@ -133,6 +133,18 @@ dev_X.isnull().sum(axis = 0) # Tính tổng các giá trị bị khuyết
 # * Lọc tất cả các phần tử bị khuyết và thay thế các phần tử đó bằng giá trị trung bình của cột đó
 dev_X_imputer_mean = SimpleImputer() # Default SimpleImputer(missing_values=np.nan, strategy="mean", fill_value=None, verbose=0, copy=True, add_indicator=False)
 dev_X_imputer_mean.fit(dev_X["total_bedrooms"].values.reshape(-1,1))
+
+# %% [markdown]
+# ## Xử lí dữ liệu bị khuyết trên tập Test
+test_X_Null_Index = test_X.isnull().any(axis=1)
+test_X[test_X_Null_Index]
+
+# %%
+test_X.isnull().sum(axis = 0)
+
+#%%
+test_X_imputer_mean = SimpleImputer() # Default SimpleImputer(missing_values=np.nan, strategy="mean", fill_value=None, verbose=0, copy=True, add_indicator=False)
+test_X_imputer_mean.fit(test_X["total_bedrooms"].values.reshape(-1,1))
 
 # %% [markdown]
 # # Yêu cầu 2: Thực hiện các thí nghiệm với việc thêm các thuộc tính tích lũy dẫn
