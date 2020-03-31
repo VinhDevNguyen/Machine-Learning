@@ -158,37 +158,50 @@ test_X_imputer_mean.fit(test_X["total_bedrooms"].values.reshape(-1,1))
 # Lưu ý: Trong quá trình làm, các bạn sẽ tham khảo cách xử lý thuộc tính ``ocean_proximity`` bằng lớp ``LabelEncoder`` từ thư viện ``sklearn.preprocessing``
 
 # %%
+from math import sqrt
 features_list_1 = ["longitude"]
 model_1 = sm.OLS(train_Y, train_X[features_list_1]).fit()
-rmse_train_1 = mean_squared_error(train_Y, model_1.predict(train_X[features_list_1]), squared=False)
+rmse_train_1 = sqrt(mean_squared_error(train_Y, model_1.predict(train_X[features_list_1])))
 # If True returns MSE value, if False returns RMSE value.
-rmse_dev_1 = mean_squared_error(dev_Y, model_1.predict(dev_X[features_list_1]), squared=False)
-rmse_test_1 = mean_squared_error(test_Y, model_1.predict(test_X[features_list_1]), squared=False)
+rmse_dev_1 = sqrt(mean_squared_error(dev_Y, model_1.predict(dev_X[features_list_1])))
+rmse_test_1 = sqrt(mean_squared_error(test_Y, model_1.predict(test_X[features_list_1])))
 
 
 # %%
 features_list_2 = ["longitude", "latitude"]
 model_2 = sm.OLS(train_Y, train_X[features_list_2]).fit()
-rmse_train_2 = mean_squared_error(train_Y, model_2.predict(train_X[features_list_2]), squared=False)
-rmse_dev_2 = mean_squared_error(dev_Y, model_2.predict(dev_X[features_list_2]), squared=False)
-rmse_test_2 = mean_squared_error(test_Y, model_2.predict(test_X[features_list_2]), squared=False)
+rmse_train_2 = sqrt(mean_squared_error(train_Y, model_2.predict(train_X[features_list_2])))
+rmse_dev_2 = sqrt(mean_squared_error(dev_Y, model_2.predict(dev_X[features_list_2])))
+rmse_test_2 = sqrt(mean_squared_error(test_Y, model_2.predict(test_X[features_list_2])))
 
 
 # %%
-# Các bạn code tại đây
-
+features_list_3 = ["longitude", "latitude", "housing_median_age"]
+model_3 = sm.OLS(train_Y, train_X[features_list_3]).fit()
+rmse_train_3 = sqrt(mean_squared_error(train_Y, model_3.predict(train_X[features_list_3])))
+rmse_dev_3 = sqrt(mean_squared_error(dev_Y, model_3.predict(dev_X[features_list_3])))
+rmse_test_3 = sqrt(mean_squared_error(test_Y, model_3.predict(test_X[features_list_3])))
 
 # %%
-# Các bạn code tại đây. Các bạn có thể dùng thao tác Insert -> Insert Cell Bellow/Above để chèn thêm ô để nhập code
+features_list_4 = ["longitude", "latitude", "housing_median_age", "total_rooms"]
+model_4 = sm.OLS(train_Y, train_X[features_list_4]).fit()
+rmse_train_4 = sqrt(mean_squared_error(train_Y, model_4.predict(train_X[features_list_4])))
+rmse_dev_4 = sqrt(mean_squared_error(dev_Y, model_4.predict(dev_X[features_list_4])))
+rmse_test_4 = sqrt(mean_squared_error(test_Y, model_4.predict(test_X[features_list_4])))
+
 
 # %% [markdown]
 # # Yêu cầu 3: Trình bày kết quả mô hình vào một bảng bằng thư viện Pandas
 
 # %%
-df_result = pd.DataFrame(data = {'RMSE_Train': [rmse_train_1, rmse_train_2],
-                                 'RMSE_Dev': [rmse_dev_1, rmse_dev_2],
-                                 'RMSE_Test': [rmse_test_1, rmse_test_2]},
-                         index = ['longitude', 'longitude + latitude'])
+df_result = pd.DataFrame(data = {'RMSE_Train': [rmse_train_1, rmse_train_2, rmse_train_3, rmse_train_4],
+                                 'RMSE_Dev': [rmse_dev_1, rmse_dev_2, rmse_dev_3, rmse_dev_4],
+                                 'RMSE_Test': [rmse_test_1, rmse_test_2, rmse_test_3, rmse_test_4]},
+                         index = ['longitude',
+                                  'longitude + latitude',
+                                  'longitude + latitude + housing_median_age',
+                                  'longitude + latitude + housing_median_age + total_rooms'
+                                  ])
 
 display(df_result.round(3))
 
