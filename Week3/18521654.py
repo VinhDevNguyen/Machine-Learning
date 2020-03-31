@@ -133,7 +133,7 @@ dev_X.isnull().sum(axis = 0) # Tính tổng các giá trị bị khuyết
 # * Lọc tất cả các phần tử bị khuyết và thay thế các phần tử đó bằng giá trị trung bình của cột đó
 dev_X_imputer_mean = SimpleImputer() # Default SimpleImputer(missing_values=np.nan, strategy="mean", fill_value=None, verbose=0, copy=True, add_indicator=False)
 dev_X_imputer_mean.fit(dev_X["total_bedrooms"].values.reshape(-1,1))
-
+dev_X["total_bedrooms"] = dev_X_imputer_mean.transform(dev_X["total_bedrooms"].values.reshape(-1,1))
 # %% [markdown]
 # ## Xử lí dữ liệu bị khuyết trên tập Test
 test_X_Null_Index = test_X.isnull().any(axis=1)
@@ -145,7 +145,7 @@ test_X.isnull().sum(axis = 0)
 #%%
 test_X_imputer_mean = SimpleImputer() # Default SimpleImputer(missing_values=np.nan, strategy="mean", fill_value=None, verbose=0, copy=True, add_indicator=False)
 test_X_imputer_mean.fit(test_X["total_bedrooms"].values.reshape(-1,1))
-
+test_X["total_bedrooms"] = test_X_imputer_mean.transform(test_X["total_bedrooms"].values.reshape(-1,1))
 # %% [markdown]
 # # Yêu cầu 2: Thực hiện các thí nghiệm với việc thêm các thuộc tính tích lũy dẫn
 # Chúng ta có danh sách các thuộc tính: ``longitude``, ``latitude``, ``housing_median_age``, ``total_rooms``, ``total_bedrooms``, ``population``, ``households``, ``median_income``, ``ocean_proximity``
@@ -189,18 +189,26 @@ rmse_train_4 = sqrt(mean_squared_error(train_Y, model_4.predict(train_X[features
 rmse_dev_4 = sqrt(mean_squared_error(dev_Y, model_4.predict(dev_X[features_list_4])))
 rmse_test_4 = sqrt(mean_squared_error(test_Y, model_4.predict(test_X[features_list_4])))
 
+# %%
+features_list_5 = ["longitude", "latitude", "housing_median_age", "total_rooms", "total_bedrooms"]
+model_5 = sm.OLS(train_Y, train_X[features_list_5]).fit()
+rmse_train_5 = sqrt(mean_squared_error(train_Y, model_5.predict(train_X[features_list_5])))
+rmse_dev_5 = sqrt(mean_squared_error(dev_Y, model_5.predict(dev_X[features_list_5])))
+rmse_test_5 = sqrt(mean_squared_error(test_Y, model_5.predict(test_X[features_list_5])))
+
 
 # %% [markdown]
 # # Yêu cầu 3: Trình bày kết quả mô hình vào một bảng bằng thư viện Pandas
 
 # %%
-df_result = pd.DataFrame(data = {'RMSE_Train': [rmse_train_1, rmse_train_2, rmse_train_3, rmse_train_4],
-                                 'RMSE_Dev': [rmse_dev_1, rmse_dev_2, rmse_dev_3, rmse_dev_4],
-                                 'RMSE_Test': [rmse_test_1, rmse_test_2, rmse_test_3, rmse_test_4]},
+df_result = pd.DataFrame(data = {'RMSE_Train': [rmse_train_1, rmse_train_2, rmse_train_3, rmse_train_4, rmse_train_5],
+                                 'RMSE_Dev': [rmse_dev_1, rmse_dev_2, rmse_dev_3, rmse_dev_4, rmse_dev_5],
+                                 'RMSE_Test': [rmse_test_1, rmse_test_2, rmse_test_3, rmse_test_4, rmse_test_5]},
                          index = ['longitude',
                                   'longitude + latitude',
                                   'longitude + latitude + housing_median_age',
-                                  'longitude + latitude + housing_median_age + total_rooms'
+                                  'longitude + latitude + housing_median_age + total_rooms',
+                                  'longitude + latitude + housing_median_age + total_rooms + total_bedrooms'
                                   ])
 
 display(df_result.round(3))
