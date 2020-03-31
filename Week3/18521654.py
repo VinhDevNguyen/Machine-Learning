@@ -197,18 +197,42 @@ rmse_dev_5 = sqrt(mean_squared_error(dev_Y, model_5.predict(dev_X[features_list_
 rmse_test_5 = sqrt(mean_squared_error(test_Y, model_5.predict(test_X[features_list_5])))
 
 
+# %%
+features_list_6 = ["longitude", "latitude", "housing_median_age", "total_rooms", "total_bedrooms", "population"]
+model_6 = sm.OLS(train_Y, train_X[features_list_6]).fit()
+rmse_train_6 = sqrt(mean_squared_error(train_Y, model_6.predict(train_X[features_list_6])))
+rmse_dev_6 = sqrt(mean_squared_error(dev_Y, model_6.predict(dev_X[features_list_6])))
+rmse_test_6 = sqrt(mean_squared_error(test_Y, model_6.predict(test_X[features_list_6])))
+
+# %%
+features_list_7 = ["longitude", "latitude", "housing_median_age", "total_rooms", "total_bedrooms", "population", "households"]
+model_7 = sm.OLS(train_Y, train_X[features_list_7]).fit()
+rmse_train_7 = sqrt(mean_squared_error(train_Y, model_7.predict(train_X[features_list_7])))
+rmse_dev_7 = sqrt(mean_squared_error(dev_Y, model_7.predict(dev_X[features_list_7])))
+rmse_test_7 = sqrt(mean_squared_error(test_Y, model_7.predict(test_X[features_list_7])))
+
+# %%
+features_list_8 = ["longitude", "latitude", "housing_median_age", "total_rooms", "total_bedrooms", "population", "households", "median_income"]
+model_8 = sm.OLS(train_Y, train_X[features_list_8]).fit()
+rmse_train_8 = sqrt(mean_squared_error(train_Y, model_8.predict(train_X[features_list_8])))
+rmse_dev_8 = sqrt(mean_squared_error(dev_Y, model_8.predict(dev_X[features_list_8])))
+rmse_test_8 = sqrt(mean_squared_error(test_Y, model_8.predict(test_X[features_list_8])))
+
 # %% [markdown]
 # # Yêu cầu 3: Trình bày kết quả mô hình vào một bảng bằng thư viện Pandas
 
 # %%
-df_result = pd.DataFrame(data = {'RMSE_Train': [rmse_train_1, rmse_train_2, rmse_train_3, rmse_train_4, rmse_train_5],
-                                 'RMSE_Dev': [rmse_dev_1, rmse_dev_2, rmse_dev_3, rmse_dev_4, rmse_dev_5],
-                                 'RMSE_Test': [rmse_test_1, rmse_test_2, rmse_test_3, rmse_test_4, rmse_test_5]},
+df_result = pd.DataFrame(data = {'RMSE_Train': [rmse_train_1, rmse_train_2, rmse_train_3, rmse_train_4, rmse_train_5, rmse_train_6, rmse_train_7, rmse_train_8],
+                                 'RMSE_Dev': [rmse_dev_1, rmse_dev_2, rmse_dev_3, rmse_dev_4, rmse_dev_5, rmse_dev_6, rmse_dev_7 ,rmse_dev_8],
+                                 'RMSE_Test': [rmse_test_1, rmse_test_2, rmse_test_3, rmse_test_4, rmse_test_5, rmse_test_6, rmse_test_7, rmse_test_8]},
                          index = ['longitude',
                                   'longitude + latitude',
                                   'longitude + latitude + housing_median_age',
                                   'longitude + latitude + housing_median_age + total_rooms',
-                                  'longitude + latitude + housing_median_age + total_rooms + total_bedrooms'
+                                  'longitude + latitude + housing_median_age + total_rooms + total_bedrooms',
+                                  'longitude + latitude + housing_median_age + total_rooms + total_bedrooms + population',
+                                  'longitude + latitude + housing_median_age + total_rooms + total_bedrooms + population + households',
+                                  'longitude + latitude + housing_median_age + total_rooms + total_bedrooms + population + households + median_income',
                                   ])
 
 display(df_result.round(3))
