@@ -142,7 +142,7 @@ test_X[test_X_Null_Index]
 # %%
 test_X.isnull().sum(axis = 0)
 
-#%%
+# %%
 test_X_imputer_mean = SimpleImputer() # Default SimpleImputer(missing_values=np.nan, strategy="mean", fill_value=None, verbose=0, copy=True, add_indicator=False)
 test_X_imputer_mean.fit(test_X["total_bedrooms"].values.reshape(-1,1))
 test_X["total_bedrooms"] = test_X_imputer_mean.transform(test_X["total_bedrooms"].values.reshape(-1,1))
@@ -217,6 +217,31 @@ model_8 = sm.OLS(train_Y, train_X[features_list_8]).fit()
 rmse_train_8 = sqrt(mean_squared_error(train_Y, model_8.predict(train_X[features_list_8])))
 rmse_dev_8 = sqrt(mean_squared_error(dev_Y, model_8.predict(dev_X[features_list_8])))
 rmse_test_8 = sqrt(mean_squared_error(test_Y, model_8.predict(test_X[features_list_8])))
+
+# %% [markdown]
+# Ta thấy feature `ocean_proximity` thuộc dạng phân loại (categorical variables), nhưng vấn đề là `sm.OLS` không thể xử lí được loại dữ liệu 
+# này. Nhưng chúng ta có thể sử dụng `sklearn.reprocessing.LabelEncoder` để chuyển các giá trị phân loại (categorical variables) 
+# thành các biến giả (dummy/indicator variables)
+#
+# * Tìm những phần tử trong feature `ocean_proximity`
+train_X.pivot_table(index =['ocean_proximity'], aggfunc='size')
+
+# %% [markdown]
+# * Chuyển chúng thành biến giả
+LE_Ocean = LabelEncoder()
+LE_Ocean.fit(['<1H OCEAN', 'INLAND', 'ISLAND', 'NEAR BAY', 'NEAR OCEAN'])
+train_X['ocean_proximity'] = LE_Ocean.transform(train_X["ocean_proximity"].values.reshape(-1,1))
+test_X['ocean_proximity'] = LE_Ocean.transform(test_X["ocean_proximity"].values.reshape(-1,1))
+dev_X['ocean_proximity'] = LE_Ocean.transform(dev_X["ocean_proximity"].values.reshape(-1,1))
+
+# %%
+train_X['ocean_proximity'].head()
+
+# %%
+test_X['ocean_proximity'].head()
+
+# %%
+dev_X['ocean_proximity'].head()
 
 # %% [markdown]
 # # Yêu cầu 3: Trình bày kết quả mô hình vào một bảng bằng thư viện Pandas
