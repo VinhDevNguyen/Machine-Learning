@@ -7,6 +7,7 @@ import statsmodels.api as sm
 from sklearn.metrics import mean_squared_error
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import LabelEncoder
+from math import sqrt
 
 # %% [markdown]
 # # Đọc dữ liệu và quan sát nhanh dữ liệu California Housing Prices đã được chia thành 3 tập Train, Dev, và Test
@@ -158,7 +159,6 @@ test_X["total_bedrooms"] = test_X_imputer_mean.transform(test_X["total_bedrooms"
 # Lưu ý: Trong quá trình làm, các bạn sẽ tham khảo cách xử lý thuộc tính ``ocean_proximity`` bằng lớp ``LabelEncoder`` từ thư viện ``sklearn.preprocessing``
 
 # %%
-from math import sqrt
 features_list_1 = ["longitude"]
 model_1 = sm.OLS(train_Y, train_X[features_list_1]).fit()
 rmse_train_1 = sqrt(mean_squared_error(train_Y, model_1.predict(train_X[features_list_1])))
@@ -173,7 +173,6 @@ model_2 = sm.OLS(train_Y, train_X[features_list_2]).fit()
 rmse_train_2 = sqrt(mean_squared_error(train_Y, model_2.predict(train_X[features_list_2])))
 rmse_dev_2 = sqrt(mean_squared_error(dev_Y, model_2.predict(dev_X[features_list_2])))
 rmse_test_2 = sqrt(mean_squared_error(test_Y, model_2.predict(test_X[features_list_2])))
-
 
 # %%
 features_list_3 = ["longitude", "latitude", "housing_median_age"]
@@ -244,7 +243,6 @@ test_X['ocean_proximity'].head()
 dev_X['ocean_proximity'].head()
 
 # %%
-# %%
 features_list_9 = ["longitude", "latitude", "housing_median_age", "total_rooms", "total_bedrooms", "population", "households", "median_income", "ocean_proximity"]
 model_9 = sm.OLS(train_Y, train_X[features_list_9]).fit()
 rmse_train_9 = sqrt(mean_squared_error(train_Y, model_9.predict(train_X[features_list_9])))
@@ -273,7 +271,91 @@ display(df_result.round(3))
 
 # %% [markdown]
 # # Yêu cầu 4: Nhận xét các kết quả trên
-# Các bạn vui lòng nhận xét tại đây nha, ví dụ như giá trị hiệu suất ``RMSE`` thay đổi như thế nào?
-# Các bạn nên dùng ``Markdown`` như thế này để nhận xét.
+# Ta thấy giá trị hiệu suất ``RMSE`` giảm khi có thêm feature mới. Model hoạt động càng chính xác hơn.
+
 # %% [markdown]
-# # Yêu cầu 5: Thực hiện lại các Yêu cầu 2, 3, 4 khi dùng mô hình ``Support Vector Machine regressor`` (``sklearn.svm.SVR``) để giải quyết bài toán hồi quy tuyến tính 
+# # Yêu cầu 5: Thực hiện lại các Yêu cầu 2, 3, 4 khi dùng mô hình ``Support Vector Machine regressor`` (``sklearn.svm.SVR``) 
+# để giải quyết bài toán hồi quy tuyến tính 
+# * Import thư viện
+from sklearn.svm import SVR
+regressor = SVR(kernel='rbf')
+
+# %% [markdown]
+# * Áp dụng SVM lên thuộc tính ``longitude``
+SVM_model_1 = regressor.fit(train_X[features_list_1].values.reshape(-1,1), train_Y)
+SVM_rmse_train_1 = sqrt(mean_squared_error(train_Y, SVM_model_1.predict(train_X[features_list_1])))
+SVM_rmse_dev_1 = sqrt(mean_squared_error(dev_Y, SVM_model_1.predict(dev_X[features_list_1])))
+SVM_rmse_test_1 = sqrt(mean_squared_error(test_Y, SVM_model_1.predict(test_X[features_list_1])))
+
+# %% [markdown]
+# * Tương tự áp dụng lên nhiều thuộc tính khác
+SVM_model_2 = regressor.fit(train_X[features_list_2].values.reshape(-1,2), train_Y)
+SVM_rmse_train_2 = sqrt(mean_squared_error(train_Y, SVM_model_2.predict(train_X[features_list_2])))
+SVM_rmse_dev_2 = sqrt(mean_squared_error(dev_Y, SVM_model_2.predict(dev_X[features_list_2])))
+SVM_rmse_test_2 = sqrt(mean_squared_error(test_Y, SVM_model_2.predict(test_X[features_list_2])))
+
+# %%
+SVM_model_3 = regressor.fit(train_X[features_list_3].values.reshape(-1,3), train_Y)
+SVM_rmse_train_3 = sqrt(mean_squared_error(train_Y, SVM_model_3.predict(train_X[features_list_3])))
+SVM_rmse_dev_3 = sqrt(mean_squared_error(dev_Y, SVM_model_3.predict(dev_X[features_list_3])))
+SVM_rmse_test_3 = sqrt(mean_squared_error(test_Y, SVM_model_3.predict(test_X[features_list_3])))
+
+# %%
+SVM_model_4 = regressor.fit(train_X[features_list_4].values.reshape(-1,4), train_Y)
+SVM_rmse_train_4 = sqrt(mean_squared_error(train_Y, SVM_model_4.predict(train_X[features_list_4])))
+SVM_rmse_dev_4 = sqrt(mean_squared_error(dev_Y, SVM_model_4.predict(dev_X[features_list_4])))
+SVM_rmse_test_4 = sqrt(mean_squared_error(test_Y, SVM_model_4.predict(test_X[features_list_4])))
+
+# %%
+SVM_model_5 = regressor.fit(train_X[features_list_5].values.reshape(-1,5), train_Y)
+SVM_rmse_train_5 = sqrt(mean_squared_error(train_Y, SVM_model_5.predict(train_X[features_list_5])))
+SVM_rmse_dev_5 = sqrt(mean_squared_error(dev_Y, SVM_model_5.predict(dev_X[features_list_5])))
+SVM_rmse_test_5 = sqrt(mean_squared_error(test_Y, SVM_model_5.predict(test_X[features_list_5])))
+
+# %%
+SVM_model_6 = regressor.fit(train_X[features_list_6].values.reshape(-1,6), train_Y)
+SVM_rmse_train_6 = sqrt(mean_squared_error(train_Y, SVM_model_6.predict(train_X[features_list_6])))
+SVM_rmse_dev_6 = sqrt(mean_squared_error(dev_Y, SVM_model_6.predict(dev_X[features_list_6])))
+SVM_rmse_test_6 = sqrt(mean_squared_error(test_Y, SVM_model_6.predict(test_X[features_list_6])))
+
+# %%
+SVM_model_7 = regressor.fit(train_X[features_list_7].values.reshape(-1,7), train_Y)
+SVM_rmse_train_7 = sqrt(mean_squared_error(train_Y, SVM_model_7.predict(train_X[features_list_7])))
+SVM_rmse_dev_7 = sqrt(mean_squared_error(dev_Y, SVM_model_7.predict(dev_X[features_list_7])))
+SVM_rmse_test_7 = sqrt(mean_squared_error(test_Y, SVM_model_7.predict(test_X[features_list_7])))
+
+# %%
+SVM_model_8 = regressor.fit(train_X[features_list_8].values.reshape(-1,8), train_Y)
+SVM_rmse_train_8 = sqrt(mean_squared_error(train_Y, SVM_model_8.predict(train_X[features_list_8])))
+SVM_rmse_dev_8 = sqrt(mean_squared_error(dev_Y, SVM_model_8.predict(dev_X[features_list_8])))
+SVM_rmse_test_8 = sqrt(mean_squared_error(test_Y, SVM_model_8.predict(test_X[features_list_8])))
+
+# %%
+SVM_model_9 = regressor.fit(train_X[features_list_9].values.reshape(-1,9), train_Y)
+SVM_rmse_train_9 = sqrt(mean_squared_error(train_Y, SVM_model_9.predict(train_X[features_list_9])))
+SVM_rmse_dev_9 = sqrt(mean_squared_error(dev_Y, SVM_model_9.predict(dev_X[features_list_9])))
+SVM_rmse_test_9 = sqrt(mean_squared_error(test_Y, SVM_model_9.predict(test_X[features_list_9])))
+
+# %% [markdown]
+# ## Trình bày kết quả RMSE khi dùng SVM
+# %%
+df_result = pd.DataFrame(data = {'RMSE_Train': [SVM_rmse_train_1, SVM_rmse_train_2, SVM_rmse_train_3, SVM_rmse_train_4, SVM_rmse_train_5, SVM_rmse_train_6, SVM_rmse_train_7, SVM_rmse_train_8, SVM_rmse_train_9],
+                                 'RMSE_Dev': [SVM_rmse_dev_1, SVM_rmse_dev_2, SVM_rmse_dev_3, SVM_rmse_dev_4, SVM_rmse_dev_5, SVM_rmse_dev_6, SVM_rmse_dev_7, SVM_rmse_dev_8, SVM_rmse_dev_9],
+                                 'RMSE_Test': [SVM_rmse_test_1, SVM_rmse_test_2, SVM_rmse_test_3, SVM_rmse_test_4, SVM_rmse_test_5, SVM_rmse_test_6, SVM_rmse_test_7, SVM_rmse_test_8, SVM_rmse_test_9]},
+                         index = ['longitude',
+                                  'longitude + latitude',
+                                  'longitude + latitude + housing_median_age',
+                                  'longitude + latitude + housing_median_age + total_rooms',
+                                  'longitude + latitude + housing_median_age + total_rooms + total_bedrooms',
+                                  'longitude + latitude + housing_median_age + total_rooms + total_bedrooms + population',
+                                  'longitude + latitude + housing_median_age + total_rooms + total_bedrooms + population + households',
+                                  'longitude + latitude + housing_median_age + total_rooms + total_bedrooms + population + households + median_income',
+                                  'longitude + latitude + housing_median_age + total_rooms + total_bedrooms + population + households + median_income + ocean_proximity'
+                                  ])
+
+display(df_result.round(3))
+
+# %% [markdown]
+# # Yêu cầu 4: Nhận xét các kết quả trên
+# khi dùng mô hình ``Support Vector Machine regressor`` thì ta thấy mô hình lúc train nhiều feature thì cực kì lâu và lại cho ra kết quả
+# không như mong đợi (chỉ số RMSE càng tăng khi ta cho thêm nhiều feature vào)
