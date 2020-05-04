@@ -1,0 +1,15 @@
+Day,Outlook_Cat,Outlook_Cont,Temp_Cat,Temp_Cont,Humidity_Cat,Humidity_Cont,Wind_Cat,Wind_Cont,Play_Tennis
+1,Sunny,15,Hot,36,High,71,Weak,0.5,No
+2,Sunny,17,Hot,35,High,80,Strong,4.0,No
+3,Overcast,57,Hot,30,High,75,Weak,0.7,Yes
+4,Rain,90,Mild,26,High,73,Weak,0.8,Yes
+5,Rain,92,Cool,25,Normal,61,Weak,1.0,Yes
+6,Rain,91,Cool,23,Normal,50,Strong,3.0,No
+7,Overcast,60,Cool,25,Normal,52,Strong,4.0,Yes
+8,Sunny,8,Mild,27,High,65,Weak,0.9,No
+9,Sunny,10,Cool,20,Normal,53,Weak,1.0,Yes
+10,Rain,95,Mild,27,Normal,52,Weak,1.1,Yes
+11,Sunny,7,Mild,29,Normal,57,Strong,3.5,Yes
+12,Overcast,49,Mild,28,High,66,Strong,7.0,Yes
+13,Overcast,62,Hot,31,Normal,57,Weak,0.5,Yes
+14,Rain,94,Mild,28,High,66,Strong,6.0,No
