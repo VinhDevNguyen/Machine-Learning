@@ -100,6 +100,7 @@ yhat
 
 # %%
 df_All = df_Cont.copy()
+df_All.head()
 
 # %%
 df_All.pivot_table(index =['Outlook_Cat'], aggfunc='size')
@@ -108,7 +109,7 @@ df_All.pivot_table(index =['Outlook_Cat'], aggfunc='size')
 # %%
 LE_Outlook_Cat = preprocessing.LabelEncoder()
 LE_Outlook_Cat.fit(["Overcast", "Rain", "Sunny"])
-df_All["Outlook_Cat"] = LE_Outlook_Cat.transform(df_Cont['Outlook_Cat'].values.reshape(-1,1))
+df_All["Outlook_Cat"] = LE_Outlook_Cat.transform(df_All['Outlook_Cat'].values.reshape(-1,1))
 df_All["Outlook_Cat"].head()
 
 # %%
@@ -117,7 +118,7 @@ df_All.pivot_table(index =['Temp_Cat'], aggfunc='size')
 # %%
 LE_Temp_Cat = preprocessing.LabelEncoder()
 LE_Temp_Cat.fit(["Cool", "Mild", "Hot"])
-df_All["Temp_Cat"] = LE_Temp_Cat.transform(df_Cont['Temp_Cat'].values.reshape(-1,1))
+df_All["Temp_Cat"] = LE_Temp_Cat.transform(df_All['Temp_Cat'].values.reshape(-1,1))
 df_All["Temp_Cat"].head()
 
 
@@ -127,7 +128,7 @@ df_All.pivot_table(index =['Humidity_Cat'], aggfunc='size')
 # %%
 LE_Humidity_Cat = preprocessing.LabelEncoder()
 LE_Humidity_Cat.fit(["High", "Normal"])
-df_All["Humidity_Cat"] = LE_Humidity_Cat.transform(df_Cont['Humidity_Cat'].values.reshape(-1,1))
+df_All["Humidity_Cat"] = LE_Humidity_Cat.transform(df_All['Humidity_Cat'].values.reshape(-1,1))
 df_All["Humidity_Cat"].head()
 
 
@@ -137,7 +138,38 @@ df_All.pivot_table(index =['Wind_Cat'], aggfunc='size')
 # %%
 LE_Wind_Cat = preprocessing.LabelEncoder()
 LE_Wind_Cat.fit(["Strong", "Weak"])
-df_All["Wind_Cat"] = LE_Wind_Cat.transform(df_Cont['Wind_Cat'].values.reshape(-1,1))
+df_All["Wind_Cat"] = LE_Wind_Cat.transform(df_All['Wind_Cat'].values.reshape(-1,1))
 df_All["Wind_Cat"].head()
 
 # %%
+X_All = np.asarray(df_All[["Outlook_Cat", "Outlook_Cont", "Temp_Cat", "Temp_Cont", "Humidity_Cat", "Humidity_Cont", "Wind_Cat", "Wind_Cont"]])
+X_All[0:5]
+
+
+# %%
+y_All = np.asarray(df_All[["Play_Tennis"]])
+y_All[0:5]
+
+# %%
+from sklearn.linear_model import LogisticRegression
+LR_All = LogisticRegression().fit(X_All, y_All)
+LR_All
+
+# %%
+yhat_All = LR_All.predict(X_All)
+yhat_All
+
+# %% [markdown]
+# ## Đánh giá:
+# Classification Report của model chỉ có FeatureName_Cont
+
+from sklearn.metrics import classification_report, confusion_matrix
+print(classification_report(y, yhat))
+
+# %% [markdown]
+# Classification Report của model có FeatureName_Cont và FeatureName_Cat
+from sklearn.metrics import classification_report, confusion_matrix
+print(classification_report(y_All, yhat_All))
+
+# %% [markdown]
+# Ta thấy accuracy tăng khi ta kết hợp nhóm các thuộc tích liên tục FeatureName_Cont và rời rạc FeatureName_Cat
