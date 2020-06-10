@@ -7,8 +7,7 @@
 #   1. Ý tưởng cơ bản của SVM là đưa toàn bộ dataset vào không gian nhiều chiều (n chiều), từ đó tìm ra mặt phẳng thích hợp nhất (hyperplane) để phân chia
 #   2. Support Vector Machine thuần (hard margin) thì gặp hai vấn đề chính đó là nó chỉ hoạt động trên dataset ``Linearly Separable`` và thứ 2 đó là nó khá nhạy cảm với biến nhiễu (sensitive to noise). Để tránh vấn đề này, chúng ta cần sử dụng một mô hình linh hoạt 
 # hơn. Nhiệm vụ của nó là tìm được mặt phẳng vẫn phân loại tốt nhưng chấp nhận sai lệch ở một mức độ chấp nhận được.
-#   3. Tham số `C` giúp ta điều chỉnh độ rộng của margin, `C` càng lớn thì sai lệch càng nhiều nhưng margin thì càng lớn, và ngược lại.
-#  
+#   3. Tham số `C` là hằng số dương giúp cân đối độ lớn của margin và sự hy sinh của các điểm nằm trong vùng không an toàn. Khi $C = \infty $ hoặc rất lớn, Soft Margin SVM trở thành Hard Margin SVM.
 # %% [markdown]
 # ### Bài tập 2.
 #  - <ins>Yêu cầu</ins>: Sử dụng mô hình ``SVM`` thuộc thư viện ``sklearn`` để xây dựng mô hình phân loại dựa trên tập dữ liệu huấn luyện ``X_train``, ``y_train``. Hãy nhận xét về tỉ lệ nhãn ``0`` và ``1`` trong bộ dữ liệu đã cho như đoạn code bên dưới. Hãy thử thay đổi giá trị của tham số ``C`` và nhận xét các độ đo ``Recall``, ``Precison``, ``F1-score``, và ``Accuracy`` của mô hình thu được trên tập dữ liệu kiểm tra ``X_test``, ``y_test``.
