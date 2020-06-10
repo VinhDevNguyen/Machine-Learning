@@ -17,12 +17,42 @@
 # %%
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn import preprocessing
+from sklearn.metrics import classification_report, confusion_matrix, accuracy_score
+import itertools
+import numpy as np
+from sklearn import preprocessing
 
 df = pd.read_csv('thyroid_sick.csv')
 X = df[[column_name for column_name in df.columns if column_name != 'classes']]
 y = df[['classes']]
-
+X = preprocessing.StandardScaler().fit(X).transform(X.astype(float))
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
+
+
+# %%
+df.pivot_table(index =['classes'], aggfunc='size')
+
+# %% [markdown]
+# * Nhận xét:
+
+# %%
+from sklearn import svm
+C_parameter = 10.5
+mean_acc = []
+for n in np.arange(0.5, C_parameter, 0.5):
+    
+    #Train Model and Predict  
+    clf = svm.SVC(C=n).fit(X_train,y_train)
+    yhat=clf.predict(X_test)
+    cnf_matrix = confusion_matrix(y_test, yhat)
+
+    mean_acc.append(float(accuracy_score(y_test, yhat)))
+    print("Result with C = " + str(n))
+    np.set_printoptions(precision=2)
+    print (classification_report(y_test, yhat))
+
+print( "The best accuracy was with", max(mean_acc), "with C=", n)
 
 # %% [markdown]
 # ### Bài tập 3.
@@ -57,6 +87,7 @@ y_test = y[60000:]
 # %%
 from sklearn.datasets import fetch_california_housing
 from sklearn.model_selection import train_test_split
+
 
 housing = fetch_california_housing()
 X = housing["data"]
