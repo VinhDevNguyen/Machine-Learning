@@ -22,6 +22,7 @@ import itertools
 import numpy as np
 from sklearn import preprocessing
 
+# %%
 df = pd.read_csv('thyroid_sick.csv')
 X = df[[column_name for column_name in df.columns if column_name != 'classes']]
 y = df[['classes']]
@@ -77,9 +78,13 @@ print( "The best accuracy was with", max(mean_acc), "with C=", n)
 
 # %%
 import numpy as np
+from sklearn.svm import LinearSVC
 from sklearn.datasets import fetch_openml
+from sklearn.metrics import accuracy_score
+from sklearn.preprocessing import StandardScaler
 mnist = fetch_openml('mnist_784', version=1, cache=True)
 
+# %%
 X = mnist["data"]
 y = mnist["target"].astype(np.uint8)
 
@@ -87,6 +92,35 @@ X_train = X[:60000]
 y_train = y[:60000]
 X_test = X[60000:]
 y_test = y[60000:]
+lin_clf = LinearSVC(random_state=42)
+lin_clf.fit(X_train, y_train)
+y_pred = lin_clf.predict(X_train)
+accuracy_score(y_train, y_pred)
+
+# %%
+y_test_predict =lin_clf.predict(X_test)
+accuracy_score(y_test, y_test_predict)
+# %%
+Scaler = StandardScaler()
+X_train_scaled = Scaler.fit_transform(X_train.astype(np.float32))
+X_test_scaled = Scaler.fit_transform(X_test.astype(np.float32))
+# %%
+lin_clf = LinearSVC(random_state =42)
+lin_clf.fit(X_train, y_train)
+y_pred = lin_clf.predict(X_train)
+accuracy_score(y_train, y_pred)
+# %%
+y_test_predict = lin_clf.predict(X_test_scaled)
+accuracy_score(y_test, y_test_predict)
+from sklearn.model_selection import RandomizedSearchCV
+from scipy.stats import reciproca, uniform
+from sklearn.model_selection import RandomizedSearchCV
+from scipy.stats import reciprocal, uniform
+from sklearn.svm import SVC
+
+param_distributions = {"gamma": reciprocal(0.001, 0.1), "C": uniform(1, 10)}
+rnd_search_cv = RandomizedSearchCV(svm_clf, param_distributions, n_iter=10, verbose=2, cv=3)
+rnd_search_cv.fit(X_train_scaled[:1000], y_train[:1000])
 
 # %% [markdown]
 # ### Bài tập 7. (Exercise 10 trang 174, Chapter 5: Support Vector Machines)
